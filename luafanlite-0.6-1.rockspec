@@ -1,8 +1,8 @@
-package = "luafan"
-version = "0.5-1"
+package = "luafanlite"
+version = "0.6-1"
 source = {
    url = "git://github.com/luafan/luafan",
-   tag = "v0.5"
+   tag = "v0.6"
 }
 
 description = {
@@ -19,9 +19,6 @@ dependencies = {
 }
 
 external_dependencies = {
-   MARIADB = {
-      header = "mysql/mysql.h"
-   },
    OPENSSL = {
       header = "openssl/opensslv.h"
    },
@@ -44,6 +41,7 @@ build = {
             "src/hostcheck.c",
             "src/openssl_hostname_validation.c",
             "src/luafan.c",
+            "src/luafan_posix.c",
             "src/tcpd.c",
             "src/udpd.c",
             "src/stream.c",
@@ -51,13 +49,11 @@ build = {
             "src/fifo.c",
             "src/http.c",
             "src/httpd.c",
-            "src/luasql.c",
-            "src/luamariadb.c",
          },
          defines = {"FAN_HAS_OPENSSL=1", "FAN_HAS_LUAJIT=1"},
-         libraries = { "event", "event_openssl", "ssl", "crypto", "curl", "resolv", "mysqlclient" },
-         incdirs = { "$(CURL_INCDIR)", "$(LIBEVENT_INCDIR)", "$(OPENSSL_INCDIR)", "$(MARIADB_INCDIR)" },
-         libdirs = { "$(CURL_LIBDIR)", "$(LIBEVENT_LIBDIR)", "$(OPENSSL_LIBDIR)", "$(MARIADB_LIBDIR)" }
+         libraries = { "event", "event_openssl", "ssl", "crypto", "curl", "resolv" },
+         incdirs = { "$(CURL_INCDIR)", "$(LIBEVENT_INCDIR)", "$(OPENSSL_INCDIR)" },
+         libdirs = { "$(CURL_LIBDIR)", "$(LIBEVENT_LIBDIR)", "$(OPENSSL_LIBDIR)" }
       },
       ["fan.connector.init"] = "modules/fan/connector/init.lua",
       ["fan.connector.tcp"] = "modules/fan/connector/tcp.lua",
@@ -68,11 +64,11 @@ build = {
       ["fan.stream.init"] = "modules/fan/stream/init.lua",
       ["fan.stream.ffi"] = "modules/fan/stream/ffi.lua",
       ["fan.stream.bit"] = "modules/fan/stream/bit.lua",
+      ["fan.httpd.init"] = "modules/fan/httpd/init.lua",
+      ["fan.httpd.httpd"] = "modules/fan/httpd/httpd.lua",
       ["fan.objectbuf.init"] = "modules/fan/objectbuf/init.lua",
       ["fan.upnp"] = "modules/fan/upnp.lua",
       ["fan.utils"] = "modules/fan/utils.lua",
-      ["mariadb.orm"] = "modules/mariadb/orm.lua",
-      ["mariadb.pool"] = "modules/mariadb/pool.lua",
       ["config"] = "modules/config.lua",
       ["sqlite3.orm"] = "modules/sqlite3/orm.lua"
    }
